@@ -1,0 +1,381 @@
+# BloodBridge – Project Planning Document
+
+**Document Version:** 1.0
+**Project Status:** Planning Phase
+**Current Phase:** Phase 0 – Project Planning
+**Prepared By:** Project Team
+**Project Type:** Full-Stack Web Application
+
+---
+
+# 1. Project Overview
+
+## Project Name
+
+**BloodBridge**
+
+## Full Project Title
+
+**BloodBridge – Blood Donation Camp Management System for MSRIT NSS**
+
+## Purpose
+
+BloodBridge is a full-stack web application developed to digitize and streamline the management of blood donation camps conducted by the MSRIT NSS unit.
+
+The system replaces manual paperwork with a centralized digital platform for donor registration, volunteer operations, medical screening, donation tracking, and administrative reporting.
+
+The application is intended to be deployed and used during an actual blood donation camp.
+
+---
+
+# 2. Problem Statement
+
+The current blood donation camp process depends heavily on paper forms and manual coordination.
+
+Common challenges include:
+
+* Manual donor registration
+* Time-consuming donor verification
+* Difficulty tracking donor progress
+* Paper-based medical records
+* Manual report preparation
+* Slow communication between volunteers
+* Increased chances of duplicate entries
+* Difficult data retrieval after the event
+
+A centralized digital solution is required to simplify the workflow while remaining easy for volunteers to use.
+
+---
+
+# 3. Project Objective
+
+Develop a production-quality Blood Donation Camp Management System that:
+
+* Simplifies donor registration.
+* Reduces paperwork.
+* Improves volunteer efficiency.
+* Maintains accurate donor records.
+* Provides administrators with real-time monitoring.
+* Supports approximately 1000–2000 donor registrations.
+* Can be fully developed and deployed using free technologies and services.
+
+---
+
+# 4. Project Scope
+
+## Included in Version 1
+
+* Online donor registration
+* Registration confirmation through email
+* QR Code generation
+* Volunteer team management
+* Medical partner management
+* Team-based volunteer login
+* Donor check-in
+* Medical screening management
+* Blood donation management
+* Administrative dashboard
+* Reports and statistics
+* Mobile-responsive user interface
+* PostgreSQL database
+* Free cloud deployment
+
+## Excluded from Version 1
+
+The following features are intentionally excluded to keep Version 1 focused and maintainable.
+
+* SMS notifications
+* Certificate generation
+* Multiple yearly camps
+* Multi-organization support
+* AI-based recommendations
+* Offline mode
+* Volunteer PIN authentication
+* Activity logs
+* Advanced analytics
+
+These features may be considered for future versions.
+
+---
+
+# 5. Target Users
+
+## Donor
+
+Responsibilities:
+
+* Register for blood donation.
+* Receive Registration ID.
+* Receive QR Code.
+* Receive confirmation email.
+
+---
+
+## Volunteer (Sub Admin)
+
+Responsibilities:
+
+* Login using Team Access Code.
+* Search donors.
+* Check-in donors.
+* Record medical screening information.
+* Record donation information.
+* Complete donor workflow.
+
+---
+
+## Main Admin
+
+Responsibilities:
+
+* Configure the camp.
+* Manage medical partners.
+* Create volunteer teams.
+* Manage volunteers.
+* View dashboards.
+* Generate reports.
+* Send email notifications.
+* Monitor the overall camp.
+
+---
+
+# 6. Expected Scale
+
+The application is designed to support:
+
+* One active blood donation camp
+* Approximately 1000–2000 donor registrations
+* Multiple volunteer teams
+* Multiple medical partners
+* Concurrent volunteer usage
+
+---
+
+# 7. Functional Modules
+
+The application consists of the following modules:
+
+1. Camp Management
+2. Donor Registration
+3. Medical Partner Management
+4. Volunteer Team Management
+5. Volunteer Authentication
+6. Donor Check-In
+7. Medical Screening
+8. Blood Donation Management
+9. Dashboard
+10. Reports
+11. Email Service
+12. QR Code Service
+
+---
+
+# 8. Technology Stack
+
+## Backend
+
+* Java
+* Spring Boot
+* Spring Security
+* JWT Authentication
+* Spring Data JPA
+* Hibernate ORM
+* Bean Validation
+* Spring Mail
+* Maven
+
+## Frontend
+
+* React
+* Vite
+* Tailwind CSS
+* React Router
+* Axios
+
+## Database
+
+* PostgreSQL
+
+## Deployment
+
+Frontend:
+
+* Vercel
+
+Backend:
+
+* Render
+
+Database:
+
+* Neon PostgreSQL
+
+All selected technologies support free deployment.
+
+---
+
+# 9. Authentication Strategy
+
+## Main Admin Authentication
+
+* Email
+* Password
+* JWT Authentication
+
+## Volunteer Authentication
+
+* Team Access Code
+* Volunteer Name Selection
+* JWT Authentication
+
+Volunteer accounts will not require individual usernames or passwords.
+
+---
+
+# 10. Registration ID Format
+
+Each donor will receive a public Registration ID.
+
+Example:
+
+MSRIT-BDC-2026-0001
+
+Structure:
+
+* MSRIT — Organization
+* BDC — Blood Donation Camp
+* 2026 — Camp Year
+* 0001 — Sequential Registration Number
+
+Internally, the database will maintain numeric primary keys for efficient relationships.
+
+---
+
+# 11. Application Requirements
+
+The application must satisfy the following requirements.
+
+## Functional Requirements
+
+* Online donor registration
+* QR Code generation
+* Email notifications
+* Team-based volunteer workflow
+* Real-time donor search
+* Screening management
+* Donation management
+* Dashboard reporting
+
+## Non-Functional Requirements
+
+* Responsive design
+* Fast search performance
+* Easy volunteer workflow
+* Secure authentication
+* Scalable architecture
+* Production-quality code
+* Free deployment
+* Clean user interface
+
+---
+
+# 12. High-Level Architecture
+
+```
+React + Vite
+       │
+REST API
+       │
+Spring Boot
+       │
+Spring Data JPA
+       │
+PostgreSQL
+```
+
+---
+
+# 13. Folder Organization
+
+```
+BloodBridge/
+
+backend/
+
+frontend/
+
+database/
+
+docs/
+
+assets/
+
+screenshots/
+
+api-collection/
+```
+
+The backend will follow a hybrid feature-based architecture.
+
+---
+
+# 14. Project Principles
+
+The following principles govern all design and development decisions.
+
+1. Keep Version 1 simple.
+2. Every feature must solve a real operational problem.
+3. Avoid unnecessary complexity.
+4. Prioritize usability for volunteers.
+5. Minimize user interactions.
+6. Maintain clean architecture.
+7. Follow feature-based organization.
+8. Use DTOs for API communication.
+9. Build production-quality software.
+10. Use only free technologies and deployment platforms whenever possible.
+
+---
+
+# 15. Success Criteria
+
+The project will be considered successful when:
+
+* The complete blood donation workflow is digitized.
+* Volunteers can efficiently process donors.
+* Administrators can monitor the camp through dashboards.
+* The application supports at least 1000 donor registrations.
+* The application is successfully deployed using free cloud services.
+* The project demonstrates production-quality architecture suitable for software engineering interviews.
+
+---
+
+# 16. Phase Status
+
+**Current Phase:** Phase 0 – Planning
+
+## Completed
+
+* Project Vision
+* Project Scope
+* User Identification
+* Technology Selection
+* Functional Module Identification
+* Authentication Strategy
+* Registration ID Strategy
+* High-Level Architecture
+* Project Principles
+
+## Next Phase
+
+**Phase 0 – Step 2: Business Rules and Workflow Specification**
+
+This phase will define:
+
+* User permissions
+* Complete donor workflow
+* Volunteer workflow
+* Status transitions
+* Validation rules
+* Operational business rules
+
+This document serves as the foundational specification for the BloodBridge project and must be treated as the primary reference throughout planning, development, testing, deployment, and future enhancements.

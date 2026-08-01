@@ -1,0 +1,330 @@
+# BloodBridge – Business Rules & Workflow Specification
+
+## Part 3
+
+---
+
+# 15. Validation Rules
+
+The application shall validate all user input before storing data.
+
+---
+
+## Donor Registration Validation
+
+Mandatory fields:
+
+* Full Name
+* Mobile Number
+* Email Address
+* Date of Birth
+* Gender
+* Consent
+
+Optional fields:
+
+* USN
+* Known Blood Group
+* Previous Blood Donation
+* Last Donation Date
+
+---
+
+## Mobile Number
+
+* Must contain exactly 10 digits.
+* Duplicate registrations using the same mobile number are not allowed.
+
+---
+
+## Email Address
+
+* Must follow a valid email format.
+* Confirmation email will be sent to this address.
+
+---
+
+## Date of Birth
+
+* Cannot be a future date.
+* Age will be calculated automatically by the system.
+
+---
+
+## Screening Validation
+
+Mandatory fields:
+
+* Weight
+* Blood Pressure
+* Hemoglobin
+* Blood Group
+* Eligibility
+
+If the donor is rejected:
+
+* Rejection Reason becomes mandatory.
+
+---
+
+## Donation Validation
+
+Mandatory fields:
+
+* Blood Quantity
+
+Optional fields:
+
+* Blood Bag Number
+* Remarks
+
+---
+
+# 16. Email Rules
+
+The application uses email only for donor communication.
+
+---
+
+## Registration Email
+
+Immediately after successful registration, the donor receives:
+
+* Registration Confirmation
+* Registration ID
+* QR Code
+* Camp Information
+
+---
+
+## Announcement Emails
+
+The Main Admin may send general announcements to all registered donors.
+
+Examples:
+
+* Camp reminder
+* Timing updates
+* Important instructions
+
+Emails are sent to all registered donors.
+
+---
+
+## Email Requirements
+
+* Emails should be sent asynchronously to avoid slowing down registration.
+* Failed email deliveries should not interrupt registration.
+* Email content should be professional and concise.
+
+---
+
+# 17. QR Code Rules
+
+Each donor receives one QR Code after registration.
+
+---
+
+## QR Code Content
+
+The QR Code contains only:
+
+Registration ID
+
+Example:
+
+MSRIT-BDC-2026-0045
+
+No personal information shall be stored inside the QR Code.
+
+---
+
+## QR Code Usage
+
+Volunteers may:
+
+* Scan the QR Code
+* Search using Registration ID
+* Search using Mobile Number
+* Search using Donor Name
+
+The QR Code is intended to speed up donor lookup but is not mandatory.
+
+---
+
+# 18. Dashboard Rules
+
+---
+
+## Volunteer Dashboard
+
+The Volunteer Dashboard displays:
+
+* Team Name
+* Medical Partner
+* Total Completed Donations
+* Total Rejected Donors
+* Pending Screening
+* Donor Search
+
+Volunteers shall only access data related to their assigned team.
+
+---
+
+## Main Admin Dashboard
+
+The Main Admin Dashboard displays:
+
+* Total Registrations
+* Total Check-Ins
+* Total Approved Donors
+* Total Rejected Donors
+* Total Completed Donations
+* Total No Show Donors
+* Team-wise Statistics
+* Medical Partner Statistics
+
+The Main Admin has access to all camp data.
+
+---
+
+# 19. Report Rules
+
+The application shall generate reports for the Main Admin.
+
+---
+
+## Donor Report
+
+Includes:
+
+* Registration ID
+* Donor Name
+* Mobile Number
+* Status
+* Team
+* Blood Group
+* Donation Status
+
+---
+
+## Team Report
+
+Includes:
+
+* Team Name
+* Medical Partner
+* Number of Volunteers
+* Completed Donations
+* Rejected Donors
+
+---
+
+## Medical Partner Report
+
+Includes:
+
+* Medical Partner
+* Number of Donors Processed
+* Completed Donations
+
+---
+
+## Summary Report
+
+Displays:
+
+* Total Registrations
+* Total Donations
+* Total Rejections
+* Total No Shows
+
+---
+
+# 20. Business Constraints
+
+The following constraints apply throughout the application.
+
+* Only one active blood donation camp exists.
+* One Main Admin manages the application.
+* One volunteer belongs to exactly one team.
+* One team belongs to one medical partner.
+* One donor has one Registration ID.
+* Registration ID is permanent.
+* Internal database IDs are never displayed.
+* Volunteers cannot access administrative functions.
+* Donors do not have login accounts.
+* Medical information is collected only during screening.
+* Donation information is recorded only after approval.
+* The system shall support approximately 1000–2000 donor registrations.
+* The application shall remain responsive on desktop, tablet, and mobile devices.
+* The application shall use only free technologies and free deployment services.
+
+---
+
+# 21. Operational Guidelines
+
+To ensure smooth operation during the camp, the following guidelines should be followed.
+
+### Volunteers
+
+* Verify donor identity before check-in.
+* Complete screening details immediately after examination.
+* Record donation details immediately after blood collection.
+* Avoid leaving donor records incomplete.
+
+---
+
+### Main Admin
+
+* Configure all teams before registration begins.
+* Verify volunteer assignments before camp day.
+* Ensure email settings are working before registration opens.
+* Monitor dashboard throughout the event.
+
+---
+
+### Donors
+
+* Register before attending the camp.
+* Carry Registration ID or QR Code.
+* Follow instructions provided by volunteers and the medical team.
+
+---
+
+# 22. Future Scope
+
+The following features are outside the scope of Version 1 but may be considered for future releases.
+
+* Multiple yearly camps
+* Multi-college support
+* Certificate generation
+* SMS notifications
+* Volunteer attendance tracking
+* Audit logs
+* Advanced analytics
+* Offline support
+* Mobile application
+* AI-based donor insights
+
+---
+
+# Document Completion
+
+This document defines the complete business rules and operational workflow for the BloodBridge application.
+
+All future database design, backend development, frontend implementation, testing, and deployment activities shall follow the rules defined in this document.
+
+Any modification to business logic should be reflected in this document before implementation.
+
+---
+
+# Document Status
+
+**Document Name:** 02_Business_Rules.md
+
+**Version:** 1.0
+
+**Status:** Approved
+
+**Applies To:** BloodBridge Version 1.0

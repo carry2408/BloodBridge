@@ -1,0 +1,427 @@
+# BloodBridge – UI/UX Design
+
+**Version:** 1.0
+
+---
+
+# 1. Design Goals
+
+The user interface should be:
+
+* Simple and easy to use
+* Clean and modern
+* Mobile responsive
+* Fast and lightweight
+* Easy for volunteers to learn
+* Consistent throughout the application
+
+---
+
+# 2. Color Palette
+
+| Purpose    | Color                |
+| ---------- | -------------------- |
+| Primary    | Red (#DC2626)        |
+| Secondary  | White (#FFFFFF)      |
+| Background | Light Gray (#F8F9FA) |
+| Text       | Dark Gray (#212529)  |
+| Success    | Green                |
+| Warning    | Orange               |
+| Error      | Red                  |
+
+---
+
+# 3. Typography
+
+* Font: Poppins
+* Clean spacing
+* Readable font sizes
+* Consistent headings
+
+---
+
+# 4. Layout
+
+## Public Pages
+
+```text
+Navbar
+
+↓
+
+Hero Section
+
+↓
+
+Registration Form
+
+↓
+
+Footer
+```
+
+---
+
+## Volunteer Pages
+
+```text
+Sidebar
+
+↓
+
+Dashboard
+
+↓
+
+Search Donor
+
+↓
+
+Screening
+
+↓
+
+Donation
+```
+
+---
+
+## Admin Pages
+
+```text
+Sidebar
+
+↓
+
+Dashboard
+
+↓
+
+Camp
+
+↓
+
+Medical Partners
+
+↓
+
+Teams
+
+↓
+
+Volunteers
+
+↓
+
+Donors
+
+↓
+
+Reports
+
+↓
+
+Settings
+```
+
+---
+
+# 5. Navigation
+
+## Public
+
+* Home
+* Register
+
+---
+
+## Volunteer
+
+* Dashboard
+* Search Donor
+* Screening
+* Donation
+* Logout
+
+---
+
+## Admin
+
+* Dashboard
+* Camp
+* Medical Partners
+* Teams
+* Volunteers
+* Donors
+* Reports
+* Settings
+* Logout
+
+---
+
+# 6. Public Pages
+
+## Home
+
+* Hero Section
+* About Camp
+* Register Button
+
+---
+
+## Registration
+
+* Donor Registration Form
+
+---
+
+## Registration Success
+
+Displays:
+
+* Registration Successful
+* Registration ID
+* QR Code
+* Download QR Button
+
+---
+
+## Error Page
+
+* 404 Page
+
+---
+
+# 7. Volunteer Pages
+
+## Login
+
+* Team Access Code
+* Volunteer Name
+* Login Button
+
+---
+
+## Dashboard
+
+Shows:
+
+* Team Name
+* Medical Partner
+* Pending Screening
+* Completed Donations
+* Search Donor
+
+---
+
+## Search Donor
+
+Search by:
+
+* Registration ID
+* Phone Number
+* Name
+
+---
+
+## Screening
+
+Displays:
+
+* Donor Details
+* Screening Form
+* Save Button
+
+---
+
+## Donation
+
+Displays:
+
+* Donor Details
+* Donation Form
+* Complete Donation Button
+
+---
+
+# 8. Admin Pages
+
+## Login
+
+* Email
+* Password
+
+---
+
+## Dashboard
+
+Displays:
+
+* Total Registrations
+* Completed Donations
+* Rejected Donors
+* No Show Donors
+* Team Statistics
+
+---
+
+## Camp Management
+
+* Create Camp
+* Update Camp
+* Close Camp
+
+---
+
+## Medical Partners
+
+* Add
+* Update
+* Delete
+
+---
+
+## Teams
+
+* Create Team
+* Generate Team Access Code
+* Assign Medical Partner
+
+---
+
+## Volunteers
+
+* Add Volunteer
+* Update Volunteer
+* Activate / Deactivate Volunteer
+
+---
+
+## Donors
+
+* View Donors
+* Search Donors
+* Edit Donor Details
+
+---
+
+## Reports
+
+* Donor Report
+* Team Report
+* Medical Partner Report
+* Summary Report
+
+---
+
+## Settings
+
+* Profile
+* Change Password
+
+---
+
+# 9. Reusable Components
+
+The application should use reusable components.
+
+* Navbar
+* Sidebar
+* Footer
+* Button
+* Input Field
+* Dropdown
+* Search Bar
+* Card
+* Table
+* Modal
+* Loader
+* Toast Notification
+* Confirmation Dialog
+
+---
+
+# 10. Responsive Design
+
+The application must support:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Navigation should automatically adjust based on screen size.
+
+---
+
+# 11. User Experience Guidelines
+
+* Keep forms simple.
+* Minimize the number of clicks.
+* Show clear success and error messages.
+* Highlight required fields.
+* Use loading indicators where necessary.
+* Confirm important actions before execution.
+* Keep navigation consistent across all pages.
+
+---
+
+# 12. Future Improvements
+
+Future versions may include:
+
+* Dark Mode
+* Charts and Analytics
+* Better Dashboard Visualizations
+* Certificate Download
+* Advanced Search Filters
+* Mobile Application
+
+---
+
+# Screen List
+
+## Public
+
+* Home
+* Registration
+* Registration Success
+* 404
+
+---
+
+## Volunteer
+
+* Login
+* Dashboard
+* Search Donor
+* Screening
+* Donation
+
+---
+
+## Admin
+
+* Login
+* Dashboard
+* Camp
+* Medical Partners
+* Teams
+* Volunteers
+* Donors
+* Reports
+* Settings
+
+---
+
+# UI Design Principles
+
+* Simple
+* Clean
+* Responsive
+* Consistent
+* Easy to Use
+* Fast
+* Accessible
+
+---

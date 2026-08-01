@@ -1,0 +1,367 @@
+# BloodBridge – Business Rules & Workflow Specification
+
+**Document Version:** 1.0
+
+**Project:** BloodBridge – Blood Donation Camp Management System
+
+**Status:** Approved
+
+---
+
+# 1. Introduction
+
+This document defines the business rules, operational workflows, user responsibilities, permissions, and system behavior for the BloodBridge application.
+
+Its purpose is to ensure that every module of the application follows the same business logic during development.
+
+Any future development must comply with the rules defined in this document.
+
+---
+
+# 2. User Roles
+
+The system consists of three primary user roles.
+
+## 2.1 Donor
+
+A donor is a person who registers to donate blood.
+
+The donor does not require an account or password.
+
+The donor interacts only with the public registration system.
+
+### Responsibilities
+
+* Register for the blood donation camp.
+* Receive Registration ID.
+* Receive QR Code.
+* Receive confirmation email.
+* Visit the camp using the Registration ID or QR Code.
+
+---
+
+## 2.2 Volunteer (Sub Admin)
+
+Volunteers are NSS members assigned to a medical partner team.
+
+Each volunteer belongs to exactly one team.
+
+Volunteers perform all operational tasks during the camp.
+
+### Responsibilities
+
+* Login using Team Access Code.
+* Select volunteer name.
+* Search donors.
+* Check-in donors.
+* Record screening information.
+* Record donation information.
+* Complete donor workflow.
+
+---
+
+## 2.3 Main Admin
+
+The Main Admin manages the entire application.
+
+The Main Admin has complete administrative access.
+
+### Responsibilities
+
+* Configure camp information.
+* Create volunteer teams.
+* Add medical partners.
+* Add volunteers.
+* Manage donor records.
+* View dashboards.
+* Generate reports.
+* Send announcement emails.
+* Archive completed camp.
+
+---
+
+# 3. User Permissions
+
+## 3.1 Donor Permissions
+
+A donor can:
+
+* Register online.
+* Receive Registration ID.
+* Receive QR Code.
+* Receive confirmation email.
+
+A donor cannot:
+
+* Login to the application.
+* Modify registration after submission.
+* Access volunteer features.
+* Access administrative features.
+* View other donor information.
+
+---
+
+## 3.2 Volunteer Permissions
+
+A volunteer can:
+
+* Login using Team Access Code.
+* Select their assigned volunteer profile.
+* Search donors.
+* Check-in donors.
+* Enter screening information.
+* Approve or reject donors.
+* Record donation details.
+* Complete donor workflow.
+* View donors handled by their own team.
+
+A volunteer cannot:
+
+* Delete donor records.
+* Create teams.
+* Modify camp settings.
+* Add volunteers.
+* Manage medical partners.
+* Access administrative reports.
+* Archive camps.
+
+---
+
+## 3.3 Main Admin Permissions
+
+The Main Admin can:
+
+* Create and manage camps.
+* Create volunteer teams.
+* Add medical partners.
+* Add volunteers.
+* Activate or deactivate volunteers.
+* View all donors.
+* Edit donor information when required.
+* Generate reports.
+* View dashboards.
+* Send announcement emails.
+* Archive completed camps.
+
+---
+
+# 4. Camp Workflow
+
+The application is designed for one active blood donation camp.
+
+Each camp consists of:
+
+* One venue
+* One date
+* Multiple medical partners
+* Multiple volunteer teams
+* One Main Admin
+* Multiple volunteers
+* Multiple donors
+
+The Main Admin prepares the camp before registrations begin.
+
+Preparation includes:
+
+* Creating the camp.
+* Adding medical partners.
+* Creating volunteer teams.
+* Assigning volunteers.
+* Opening donor registration.
+
+When registration is closed, new registrations are not accepted.
+
+After the camp is completed, the Main Admin archives the camp.
+
+---
+
+# 5. Donor Workflow
+
+The donor workflow follows the sequence below.
+
+## Step 1
+
+The donor scans the registration QR Code or visits the registration website.
+
+---
+
+## Step 2
+
+The donor completes the online registration form.
+
+The registration form collects only essential information.
+
+Medical information is not collected during registration.
+
+---
+
+## Step 3
+
+The system validates all required fields.
+
+If validation succeeds:
+
+* Donor information is saved.
+* Registration ID is generated.
+* QR Code is generated.
+* Confirmation email is sent.
+
+The donor status becomes:
+
+REGISTERED
+
+---
+
+## Step 4
+
+The donor arrives at the blood donation camp.
+
+The donor provides either:
+
+* Registration ID
+* QR Code
+* Mobile Number
+
+A volunteer searches the donor.
+
+The donor status becomes:
+
+CHECKED_IN
+
+---
+
+## Step 5
+
+The donor proceeds to medical screening.
+
+The doctor performs the examination.
+
+The volunteer enters the doctor's observations into the system.
+
+The donor status becomes:
+
+SCREENING
+
+---
+
+## Step 6
+
+If the donor is medically eligible:
+
+Status becomes:
+
+APPROVED
+
+The donor proceeds to blood donation.
+
+If the donor is not eligible:
+
+Status becomes:
+
+REJECTED
+
+The rejection reason is recorded.
+
+The donor workflow ends.
+
+---
+
+## Step 7
+
+After successful blood collection, the volunteer records:
+
+* Blood quantity
+* Blood bag number
+* Remarks (optional)
+
+The volunteer clicks:
+
+Complete Donation
+
+The system automatically:
+
+* Marks donor as COMPLETED.
+* Records completion date and time.
+* Records the volunteer who completed the donation.
+
+---
+
+## Step 8
+
+If a registered donor never arrives before the camp closes,
+
+the Main Admin closes the camp.
+
+The system automatically changes the donor status to:
+
+NO_SHOW
+
+---
+
+# 6. Volunteer Workflow
+
+Each volunteer belongs to exactly one team.
+
+A volunteer cannot belong to multiple teams simultaneously.
+
+## Login Process
+
+Volunteer login consists of:
+
+1. Enter Team Access Code.
+2. Select volunteer name.
+3. Login.
+
+No password or PIN is required.
+
+---
+
+After login, the volunteer dashboard displays:
+
+* Assigned team.
+* Medical partner.
+* Today's statistics.
+* Donor search.
+
+---
+
+During the camp, volunteers perform the following tasks:
+
+* Search donor.
+* Verify donor.
+* Check-in donor.
+* Enter screening information.
+* Record donation information.
+* Complete donation.
+
+Volunteers should complete these tasks using the minimum number of clicks possible.
+
+---
+
+# 7. General Business Rules
+
+The following rules apply throughout the application.
+
+* Only one active blood donation camp exists.
+* One volunteer belongs to one team.
+* One team belongs to one medical partner.
+* Registration is available only while registration is open.
+* Every donor receives a unique Registration ID.
+* Every donor receives a QR Code.
+* Registration ID format is:
+
+MSRIT-BDC-2026-0001
+
+* Internal database IDs are never shown to users.
+* Volunteers use Team Access Code for authentication.
+* Donors do not require login.
+* Medical information is collected only during screening.
+* Donation information is collected only after successful screening.
+* Completion time is recorded automatically when the donation is completed.
+* Donors may freely choose any available medical partner team during the camp.
+* The system does not assign donors to teams automatically.
+* The application is optimized for approximately 1000–2000 donor registrations.
+* The application follows a mobile-first responsive design.
+* Every feature should simplify volunteer operations rather than increase complexity.
+
+

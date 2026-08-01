@@ -1,0 +1,214 @@
+# BloodBridge – Database Design
+
+**Document Version:** 1.0
+
+**Project:** BloodBridge – Blood Donation Camp Management System
+
+---
+
+# 1. Introduction
+
+This document defines the database structure for the BloodBridge application.
+
+The database is designed to support a single blood donation camp with approximately 1000–2000 donor registrations while maintaining good performance, data integrity, and scalability.
+
+The database will use **PostgreSQL**.
+
+---
+
+# 2. Database Design Goals
+
+The database is designed with the following goals:
+
+* Maintain data integrity.
+* Avoid duplicate information.
+* Keep relationships simple.
+* Optimize search performance.
+* Support future enhancements.
+* Follow database normalization principles where appropriate.
+
+---
+
+# 3. Naming Conventions
+
+The following naming conventions will be used throughout the database.
+
+### Table Names
+
+* Singular
+* Lowercase
+* Snake_case
+
+Examples:
+
+```text
+camp
+donor
+team
+volunteer
+screening
+donation
+medical_partner
+admin
+```
+
+---
+
+### Column Names
+
+* Lowercase
+* Snake_case
+
+Examples:
+
+```text
+registration_id
+created_at
+updated_at
+blood_group
+phone_number
+```
+
+---
+
+### Primary Key
+
+Every table will contain:
+
+```text
+id
+```
+
+Rules:
+
+* Integer
+* Auto Increment
+* Primary Key
+
+---
+
+### Foreign Keys
+
+Foreign keys use:
+
+```text
+<entity>_id
+```
+
+Examples:
+
+```text
+team_id
+donor_id
+volunteer_id
+camp_id
+```
+
+---
+
+# 4. Database Entities
+
+The application consists of the following main entities.
+
+## Camp
+
+Stores information about the blood donation camp.
+
+---
+
+## Medical Partner
+
+Stores information about hospitals or blood banks participating in the camp.
+
+---
+
+## Team
+
+Stores volunteer teams assigned to medical partners.
+
+---
+
+## Volunteer
+
+Stores volunteer information.
+
+---
+
+## Donor
+
+Stores donor registration details.
+
+---
+
+## Screening
+
+Stores donor medical screening details.
+
+---
+
+## Donation
+
+Stores blood donation details.
+
+---
+
+## Admin
+
+Stores Main Admin login information.
+
+---
+
+# 5. Entity Relationships
+
+The relationships between entities are shown below.
+
+```text
+Camp
+│
+├── Medical Partners
+│        │
+│        └── Teams
+│               │
+│               └── Volunteers
+│
+└── Donors
+         │
+         ├── Screening
+         └── Donation
+```
+
+---
+
+# 6. Relationship Summary
+
+| Parent          | Child           | Relationship          |
+| --------------- | --------------- | --------------------- |
+| Camp            | Medical Partner | One to Many           |
+| Camp            | Team            | One to Many           |
+| Camp            | Donor           | One to Many           |
+| Medical Partner | Team            | One to Many           |
+| Team            | Volunteer       | One to Many           |
+| Donor           | Screening       | One to One (Optional) |
+| Donor           | Donation        | One to One (Optional) |
+| Volunteer       | Screening       | One to Many           |
+| Volunteer       | Donation        | One to Many           |
+
+---
+
+# 7. Design Principles
+
+The database follows these principles:
+
+* Every table has a primary key.
+* Every relationship uses foreign keys.
+* Duplicate data should be avoided.
+* Public Registration ID is separate from the internal database ID.
+* All timestamps use standard date/time fields.
+* Data should be easy to query and maintain.
+
+---
+
+# 8. Status
+
+This document defines the high-level database architecture.
+

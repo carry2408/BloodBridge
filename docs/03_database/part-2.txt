@@ -1,0 +1,170 @@
+# BloodBridge – Database Design
+
+## Part 2 – Database Tables
+
+---
+
+# 9. Table: admin
+
+Stores the Main Admin account.
+
+| Column     | Type         | Constraints      |
+| ---------- | ------------ | ---------------- |
+| id         | BIGSERIAL    | Primary Key      |
+| full_name  | VARCHAR(100) | Not Null         |
+| email      | VARCHAR(150) | Unique, Not Null |
+| password   | VARCHAR(255) | Not Null         |
+| created_at | TIMESTAMP    | Not Null         |
+| updated_at | TIMESTAMP    | Not Null         |
+
+---
+
+# 10. Table: camp
+
+Stores the blood donation camp information.
+
+| Column             | Type         | Constraints |
+| ------------------ | ------------ | ----------- |
+| id                 | BIGSERIAL    | Primary Key |
+| camp_name          | VARCHAR(150) | Not Null    |
+| venue              | VARCHAR(255) | Not Null    |
+| camp_date          | DATE         | Not Null    |
+| registration_start | TIMESTAMP    | Not Null    |
+| registration_end   | TIMESTAMP    | Not Null    |
+| status             | VARCHAR(20)  | Not Null    |
+| created_at         | TIMESTAMP    | Not Null    |
+| updated_at         | TIMESTAMP    | Not Null    |
+
+---
+
+# 11. Table: medical_partner
+
+Stores hospitals and blood banks participating in the camp.
+
+| Column         | Type         | Constraints |
+| -------------- | ------------ | ----------- |
+| id             | BIGSERIAL    | Primary Key |
+| camp_id        | BIGINT       | Foreign Key |
+| name           | VARCHAR(150) | Not Null    |
+| contact_person | VARCHAR(100) | Nullable    |
+| contact_number | VARCHAR(15)  | Nullable    |
+| created_at     | TIMESTAMP    | Not Null    |
+
+---
+
+# 12. Table: team
+
+Stores volunteer teams.
+
+| Column             | Type         | Constraints |
+| ------------------ | ------------ | ----------- |
+| id                 | BIGSERIAL    | Primary Key |
+| camp_id            | BIGINT       | Foreign Key |
+| medical_partner_id | BIGINT       | Foreign Key |
+| team_name          | VARCHAR(100) | Not Null    |
+| access_code        | VARCHAR(255) | Not Null    |
+| status             | VARCHAR(20)  | Not Null    |
+| created_at         | TIMESTAMP    | Not Null    |
+
+---
+
+# 13. Table: volunteer
+
+Stores volunteer information.
+
+| Column       | Type         | Constraints |
+| ------------ | ------------ | ----------- |
+| id           | BIGSERIAL    | Primary Key |
+| team_id      | BIGINT       | Foreign Key |
+| full_name    | VARCHAR(100) | Not Null    |
+| phone_number | VARCHAR(15)  | Nullable    |
+| status       | VARCHAR(20)  | Not Null    |
+| created_at   | TIMESTAMP    | Not Null    |
+
+---
+
+# 14. Table: donor
+
+Stores donor registration information.
+
+| Column             | Type         | Constraints                   |
+| ------------------ | ------------ | ----------------------------- |
+| id                 | BIGSERIAL    | Primary Key                   |
+| camp_id            | BIGINT       | Foreign Key                   |
+| registration_id    | VARCHAR(30)  | Unique, Not Null              |
+| full_name          | VARCHAR(100) | Not Null                      |
+| usn                | VARCHAR(20)  | Nullable                      |
+| phone_number       | VARCHAR(15)  | Unique, Not Null              |
+| email              | VARCHAR(150) | Not Null                      |
+| gender             | VARCHAR(20)  | Not Null                      |
+| date_of_birth      | DATE         | Not Null                      |
+| age                | INTEGER      | Generated/Application Managed |
+| known_blood_group  | VARCHAR(5)   | Nullable                      |
+| previous_donor     | BOOLEAN      | Not Null                      |
+| last_donation_date | DATE         | Nullable                      |
+| status             | VARCHAR(20)  | Not Null                      |
+| qr_code_path       | VARCHAR(255) | Nullable                      |
+| created_at         | TIMESTAMP    | Not Null                      |
+| updated_at         | TIMESTAMP    | Not Null                      |
+
+---
+
+# 15. Table: screening
+
+Stores medical screening information.
+
+| Column           | Type         | Constraints         |
+| ---------------- | ------------ | ------------------- |
+| id               | BIGSERIAL    | Primary Key         |
+| donor_id         | BIGINT       | Foreign Key, Unique |
+| volunteer_id     | BIGINT       | Foreign Key         |
+| weight           | DECIMAL(5,2) | Not Null            |
+| blood_pressure   | VARCHAR(20)  | Not Null            |
+| hemoglobin       | DECIMAL(4,2) | Not Null            |
+| blood_group      | VARCHAR(5)   | Not Null            |
+| eligible         | BOOLEAN      | Not Null            |
+| rejection_reason | TEXT         | Nullable            |
+| remarks          | TEXT         | Nullable            |
+| screened_at      | TIMESTAMP    | Not Null            |
+
+---
+
+# 16. Table: donation
+
+Stores blood donation details.
+
+| Column           | Type        | Constraints         |
+| ---------------- | ----------- | ------------------- |
+| id               | BIGSERIAL   | Primary Key         |
+| donor_id         | BIGINT      | Foreign Key, Unique |
+| volunteer_id     | BIGINT      | Foreign Key         |
+| blood_quantity   | INTEGER     | Not Null            |
+| blood_bag_number | VARCHAR(50) | Nullable            |
+| remarks          | TEXT        | Nullable            |
+| completed_at     | TIMESTAMP   | Not Null            |
+
+---
+
+# 17. Table Summary
+
+| Table           | Purpose                     |
+| --------------- | --------------------------- |
+| admin           | Main Admin login            |
+| camp            | Camp information            |
+| medical_partner | Hospital/Blood Bank details |
+| team            | Volunteer teams             |
+| volunteer       | Volunteer details           |
+| donor           | Donor registration          |
+| screening       | Medical screening           |
+| donation        | Donation details            |
+
+---
+
+# 18. Design Notes
+
+* Every table uses `id` as the primary key.
+* Public Registration ID is stored separately.
+* Screening and Donation have a one-to-one relationship with Donor.
+* Team Access Codes should be stored securely (hashed) in production.
+* All timestamps use the server's current time.
+* Status values should be implemented using enums in the backend.

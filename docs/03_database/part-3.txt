@@ -1,0 +1,307 @@
+# BloodBridge – Database Design
+
+## Part 3 – Constraints, Indexes & Database Standards
+
+---
+
+# 19. Primary Keys
+
+Every table uses a single primary key.
+
+| Table           | Primary Key |
+| --------------- | ----------- |
+| admin           | id          |
+| camp            | id          |
+| medical_partner | id          |
+| team            | id          |
+| volunteer       | id          |
+| donor           | id          |
+| screening       | id          |
+| donation        | id          |
+
+Primary keys are:
+
+* Auto-generated
+* BIGSERIAL
+* Unique
+* Never modified
+
+---
+
+# 20. Foreign Keys
+
+| Child Table     | Foreign Key        | Parent Table    |
+| --------------- | ------------------ | --------------- |
+| medical_partner | camp_id            | camp            |
+| team            | camp_id            | camp            |
+| team            | medical_partner_id | medical_partner |
+| volunteer       | team_id            | team            |
+| donor           | camp_id            | camp            |
+| screening       | donor_id           | donor           |
+| screening       | volunteer_id       | volunteer       |
+| donation        | donor_id           | donor           |
+| donation        | volunteer_id       | volunteer       |
+
+---
+
+# 21. Unique Constraints
+
+The following values must remain unique.
+
+| Table     | Column          |
+| --------- | --------------- |
+| admin     | email           |
+| donor     | registration_id |
+| donor     | phone_number    |
+| screening | donor_id        |
+| donation  | donor_id        |
+
+---
+
+# 22. Indexes
+
+To improve performance, indexes will be created on frequently searched fields.
+
+## Donor
+
+* registration_id
+* phone_number
+* full_name
+* status
+
+---
+
+## Volunteer
+
+* team_id
+
+---
+
+## Team
+
+* medical_partner_id
+
+---
+
+## Screening
+
+* donor_id
+
+---
+
+## Donation
+
+* donor_id
+
+---
+
+# 23. Cascade Rules
+
+Deleting important records should not accidentally remove historical data.
+
+## Camp
+
+Deletion is not allowed once registrations exist.
+
+The camp should be archived instead.
+
+---
+
+## Donor
+
+Deleting donors is not recommended.
+
+Donor records should remain for reporting purposes.
+
+---
+
+## Team
+
+Teams should not be deleted if volunteers exist.
+
+Inactive teams should be marked as inactive.
+
+---
+
+## Volunteer
+
+Volunteers should not be deleted.
+
+Instead:
+
+Status = INACTIVE
+
+---
+
+## Screening
+
+Cannot exist without a donor.
+
+---
+
+## Donation
+
+Cannot exist without a donor.
+
+---
+
+# 24. Enum Values
+
+The application should use enums instead of storing random strings.
+
+## Donor Status
+
+* REGISTERED
+* CHECKED_IN
+* SCREENING
+* APPROVED
+* REJECTED
+* COMPLETED
+* NO_SHOW
+
+---
+
+## Team Status
+
+* ACTIVE
+* INACTIVE
+
+---
+
+## Camp Status
+
+* UPCOMING
+* ACTIVE
+* COMPLETED
+* ARCHIVED
+
+---
+
+## Gender
+
+* MALE
+* FEMALE
+* OTHER
+
+---
+
+## Blood Quantity
+
+Standard values:
+
+* 350 ml
+* 450 ml
+
+---
+
+# 25. Timestamp Fields
+
+The following conventions shall be followed.
+
+## created_at
+
+Automatically set when a record is created.
+
+---
+
+## updated_at
+
+Automatically updated whenever the record changes.
+
+---
+
+## screened_at
+
+Automatically set when screening is saved.
+
+---
+
+## completed_at
+
+Automatically set when donation is completed.
+
+---
+
+# 26. Database Rules
+
+The following rules apply to all tables.
+
+* Use BIGSERIAL for primary keys.
+* Use foreign keys for relationships.
+* Avoid duplicate data.
+* Do not store calculated values (e.g., age).
+* Use enums instead of hardcoded strings.
+* Keep nullable fields to a minimum.
+* Store timestamps using the server time.
+* Do not expose internal IDs to users.
+
+---
+
+# 27. Final Database Structure
+
+```text
+camp
+│
+├── medical_partner
+│        │
+│        └── team
+│               │
+│               └── volunteer
+│
+└── donor
+         │
+         ├── screening
+         └── donation
+```
+
+---
+
+# 28. Database Summary
+
+Database Engine
+
+* PostgreSQL
+
+Number of Tables
+
+* 8
+
+Main Entities
+
+* Admin
+* Camp
+* Medical Partner
+* Team
+* Volunteer
+* Donor
+* Screening
+* Donation
+
+Design Principles
+
+* Normalized structure
+* Foreign key relationships
+* Feature-oriented design
+* Optimized for 1000–2000 donors
+* Mobile and desktop ready
+* Production-ready architecture
+
+---
+
+# Document Completion
+
+This document defines the complete database architecture for BloodBridge Version 1.
+
+All backend entities, repositories, database migrations, and SQL scripts shall follow this design.
+
+Any future database modifications should be reflected in this document before implementation.
+
+---
+
+# Document Status
+
+**Document Name:** 03_Database_Design.md
+
+**Version:** 1.0
+
+**Status:** Approved
