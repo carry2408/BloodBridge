@@ -1,5 +1,19 @@
 package com.msrit.bloodbridge.features.medicalpartner.entity;
 
+import com.msrit.bloodbridge.common.enums.MedicalPartnerStatus;
+import com.msrit.bloodbridge.features.camp.entity.Camp;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "medical_partner")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MedicalPartner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
