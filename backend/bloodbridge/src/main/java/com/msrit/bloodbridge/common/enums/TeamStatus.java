@@ -1,6 +1,8 @@
 package com.msrit.bloodbridge.common.enums;
 
-public enum MedicalPartnerStatus {
+public enum TeamStatus {
+
     ACTIVE,
     INACTIVE
+
 }
