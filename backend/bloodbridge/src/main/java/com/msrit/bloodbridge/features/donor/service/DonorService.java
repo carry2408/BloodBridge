@@ -11,7 +11,6 @@ import com.msrit.bloodbridge.features.donor.dto.response.DonorResponse;
 import com.msrit.bloodbridge.features.donor.entity.Donor;
 import com.msrit.bloodbridge.features.donor.mapper.DonorMapper;
 import com.msrit.bloodbridge.features.donor.repository.DonorRepository;
-import com.msrit.bloodbridge.features.volunteer.repository.VolunteerRepository;
 import com.msrit.bloodbridge.features.volunteer.entity.Volunteer;
 import com.msrit.bloodbridge.features.volunteer.repository.VolunteerRepository;
 import com.msrit.bloodbridge.features.donor.dto.request.ScreenDonorRequest;

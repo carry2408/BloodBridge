@@ -3,7 +3,6 @@ package com.msrit.bloodbridge.features.volunteer.controller;
 import com.msrit.bloodbridge.common.response.ApiResponse;
 import com.msrit.bloodbridge.features.volunteer.dto.request.CreateVolunteerRequest;
 import com.msrit.bloodbridge.features.volunteer.dto.response.VolunteerResponse;
-import com.msrit.bloodbridge.features.volunteer.entity.Volunteer;
 import com.msrit.bloodbridge.features.volunteer.service.VolunteerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

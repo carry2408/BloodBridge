@@ -6,7 +6,6 @@ import com.msrit.bloodbridge.features.camp.dto.request.UpdateCampRequest;
 import com.msrit.bloodbridge.features.camp.dto.response.CampResponse;
 import com.msrit.bloodbridge.features.camp.service.CampService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
