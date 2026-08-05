@@ -23,6 +23,7 @@ public class Volunteer {
     @Column(nullable = false)
     private String fullName;
 
+    @Column(nullable = false)
     private String usn;
 
     @Column(nullable = false, unique = true, length = 10)
