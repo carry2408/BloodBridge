@@ -4,16 +4,20 @@ import com.msrit.bloodbridge.common.response.ApiResponse;
 import com.msrit.bloodbridge.features.team.dto.request.CreateTeamRequest;
 import com.msrit.bloodbridge.features.team.dto.response.TeamResponse;
 import com.msrit.bloodbridge.features.team.service.TeamService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@Tag(name = "Team", description = "Team Management")
+@RestController
 @RequestMapping("/api/v1/teams")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class TeamController {
     private final TeamService teamService;
 

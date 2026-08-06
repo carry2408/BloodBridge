@@ -1,8 +1,6 @@
-package com.msrit.bloodbridge.features.volunteer.entity;
+package com.msrit.bloodbridge.features.admin.entity;
 
 import com.msrit.bloodbridge.common.enums.Role;
-import com.msrit.bloodbridge.common.enums.VolunteerStatus;
-import com.msrit.bloodbridge.features.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,32 +12,22 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "volunteer")
+@Table(name = "admin")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Volunteer implements UserDetails {
+public class Admin implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
-    private String usn;
-
-    @Column(nullable = false, unique = true, length = 10)
-    private String phoneNumber;
-
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -47,11 +35,10 @@ public class Volunteer implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private VolunteerStatus status;
+    private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", nullable = false)
-    private Team team;
+    @Column(nullable = false)
+    private boolean active;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -65,8 +52,10 @@ public class Volunteer implements UserDetails {
         updatedAt = LocalDateTime.now();
 
         if (role == null) {
-            role = Role.VOLUNTEER;
+            role = Role.ADMIN;
         }
+
+        active = true;
     }
 
     @PreUpdate
@@ -76,16 +65,19 @@ public class Volunteer implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        );
     }
 
     @Override
     public String getUsername() {
-        return usn;
+        return email;
     }
+
     @Override
-    public String getPassword() {
-        return password;
+    public boolean isEnabled() {
+        return active;
     }
 
     @Override
@@ -101,10 +93,5 @@ public class Volunteer implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return status == VolunteerStatus.ACTIVE;
     }
 }

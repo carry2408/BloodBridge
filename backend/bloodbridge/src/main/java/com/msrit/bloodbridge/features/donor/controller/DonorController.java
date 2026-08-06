@@ -5,11 +5,13 @@ import com.msrit.bloodbridge.features.donor.dto.request.CreateDonorRequest;
 import com.msrit.bloodbridge.features.donor.dto.request.ScreenDonorRequest;
 import com.msrit.bloodbridge.features.donor.dto.response.DonorResponse;
 import com.msrit.bloodbridge.features.donor.service.DonorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Donor", description = "Donor Registration & Donation")
 @RestController
 @RequestMapping("/api/v1/donors")
 @RequiredArgsConstructor

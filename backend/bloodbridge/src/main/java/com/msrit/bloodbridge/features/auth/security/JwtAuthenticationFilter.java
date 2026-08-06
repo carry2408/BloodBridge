@@ -1,19 +1,16 @@
 package com.msrit.bloodbridge.features.auth.security;
 
 import com.msrit.bloodbridge.features.auth.jwt.JwtService;
-import com.msrit.bloodbridge.features.volunteer.entity.Volunteer;
-import com.msrit.bloodbridge.features.volunteer.repository.VolunteerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
@@ -22,7 +19,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final VolunteerRepository volunteerRepository;
+    private final VolunteerUserDetailsService volunteerUserDetailsService;
+    private final AdminUserDetailsService adminUserDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -40,14 +38,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authHeader.substring(7);
 
-        String usn = jwtService.extractUsn(jwt);
+        String username = jwtService.extractUsername(jwt);
 
-        Volunteer volunteer = volunteerRepository.findByUsn(usn)
-                        .orElseThrow(()-> new RuntimeException("Volunteer not found"));
+        if (username != null &&
+                SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(volunteer,null,null);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails userDetails;
 
+            // Admin login uses email, Volunteer login uses USN
+            if (username.contains("@")) {
+                userDetails = adminUserDetailsService.loadUserByUsername(username);
+            } else {
+                userDetails = volunteerUserDetailsService.loadUserByUsername(username);
+            }
+
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
+            }
+        }
 
         filterChain.doFilter(request, response);
     }

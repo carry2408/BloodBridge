@@ -7,7 +7,8 @@ import com.msrit.bloodbridge.features.auth.jwt.JwtService;
 import com.msrit.bloodbridge.features.volunteer.entity.Volunteer;
 import com.msrit.bloodbridge.features.volunteer.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,25 +16,31 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final VolunteerRepository volunteerRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public VolunteerLoginResponse login(VolunteerLoginRequest request) {
 
+        // Let Spring Security authenticate the volunteer
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsn(),
+                        request.getPassword()
+                )
+        );
+
+        // Fetch volunteer details after successful authentication
         Volunteer volunteer = volunteerRepository
                 .findByUsn(request.getUsn())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Invalid Usn number"));
+                        new ResourceNotFoundException("Volunteer not found"));
 
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                volunteer.getPassword())) {
+        // Generate JWT
+        String token = jwtService.generateToken(volunteer.getUsn());
 
-            throw new IllegalArgumentException("Invalid password");
-        }
-
+        // Return response
         return VolunteerLoginResponse.builder()
-                .token(jwtService.generateToken(volunteer.getUsn()))
+                .token(token)
                 .usn(volunteer.getUsn())
                 .volunteerName(volunteer.getFullName())
                 .build();

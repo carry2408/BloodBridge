@@ -4,16 +4,20 @@ import com.msrit.bloodbridge.common.response.ApiResponse;
 import com.msrit.bloodbridge.features.medicalpartner.dto.request.CreateMedicalPartnerRequest;
 import com.msrit.bloodbridge.features.medicalpartner.dto.response.MedicalPartnerResponse;
 import com.msrit.bloodbridge.features.medicalpartner.service.MedicalPartnerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Medical Partner", description = "Medical Partner Management")
 @RestController
 @RequestMapping("/api/v1/medical-partners")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class MedicalPartnerController {
     private final MedicalPartnerService medicalPartnerService;
 
