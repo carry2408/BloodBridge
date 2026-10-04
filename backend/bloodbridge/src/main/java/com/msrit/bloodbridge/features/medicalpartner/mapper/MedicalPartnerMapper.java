@@ -10,11 +10,15 @@ public class MedicalPartnerMapper {
     private MedicalPartnerMapper() {}
 
     public static MedicalPartner toEntity(CreateMedicalPartnerRequest request, Camp camp) {
+        String cleanEmail = (request.getEmail() != null && !request.getEmail().trim().isEmpty())
+                ? request.getEmail().trim()
+                : null;
+
         return MedicalPartner.builder()
                 .name(request.getName())
                 .contactPerson(request.getContactPerson())
                 .contactNumber(request.getContactNumber())
-                .email(request.getEmail())
+                .email(cleanEmail)
                 .address(request.getAddress())
                 .status(MedicalPartnerStatus.ACTIVE)
                 .camp(camp)
@@ -37,12 +41,15 @@ public class MedicalPartnerMapper {
     }
 
     public static void updateEntity(MedicalPartner partner, CreateMedicalPartnerRequest request){
+        String cleanEmail = (request.getEmail() != null && !request.getEmail().trim().isEmpty())
+                ? request.getEmail().trim()
+                : null;
+
         partner.setName(request.getName());
         partner.setContactPerson(request.getContactPerson());
         partner.setContactNumber(request.getContactNumber());
-        partner.setEmail(request.getEmail());
+        partner.setEmail(cleanEmail);
         partner.setAddress(request.getAddress());
-        
     }
 
 }

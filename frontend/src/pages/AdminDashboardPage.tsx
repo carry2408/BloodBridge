@@ -184,9 +184,21 @@ export const AdminDashboardPage: React.FC = () => {
   const handleCreateVolunteer = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await apiHelper.post<VolunteerResponse>('/volunteers', volunteerForm);
+      const payload = {
+        ...volunteerForm,
+        email: volunteerForm.email?.trim() || undefined,
+        usn: volunteerForm.usn?.trim() || undefined,
+      };
+      const res = await apiHelper.post<VolunteerResponse>('/volunteers', payload);
       if (res.success && res.data) {
         setCreatedVolunteerResult(res.data);
+        setVolunteerForm({
+          fullName: '',
+          usn: '',
+          phoneNumber: '',
+          email: '',
+          teamId: 1,
+        });
         fetchAllData();
       }
     } catch (err: unknown) {

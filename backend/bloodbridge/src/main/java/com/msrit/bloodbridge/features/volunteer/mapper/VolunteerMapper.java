@@ -14,12 +14,18 @@ public class VolunteerMapper {
     }
 
     public static Volunteer toEntity(CreateVolunteerRequest request, Team team) {
+        String cleanEmail = (request.getEmail() != null && !request.getEmail().trim().isEmpty())
+                ? request.getEmail().trim()
+                : null;
+        String cleanUsn = (request.getUsn() != null && !request.getUsn().trim().isEmpty())
+                ? request.getUsn().trim()
+                : null;
 
         return Volunteer.builder()
                 .fullName(request.getFullName())
-                .usn(request.getUsn())
+                .usn(cleanUsn)
                 .phoneNumber(request.getPhoneNumber())
-                .email(request.getEmail())
+                .email(cleanEmail)
                 .status(VolunteerStatus.ACTIVE)
                 .team(team)
                 .build();
@@ -56,11 +62,17 @@ public class VolunteerMapper {
     }
 
     public static void updateEntity(Volunteer volunteer, CreateVolunteerRequest request, Team team) {
+        String cleanEmail = (request.getEmail() != null && !request.getEmail().trim().isEmpty())
+                ? request.getEmail().trim()
+                : null;
+        String cleanUsn = (request.getUsn() != null && !request.getUsn().trim().isEmpty())
+                ? request.getUsn().trim()
+                : null;
 
         volunteer.setFullName(request.getFullName());
-        volunteer.setUsn(request.getUsn());
+        volunteer.setUsn(cleanUsn);
         volunteer.setPhoneNumber(request.getPhoneNumber());
-        volunteer.setEmail(request.getEmail());
+        volunteer.setEmail(cleanEmail);
         if (team != null) {
             volunteer.setTeam(team);
         }
