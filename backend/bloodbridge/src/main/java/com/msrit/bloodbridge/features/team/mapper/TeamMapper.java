@@ -21,16 +21,20 @@ public class TeamMapper {
     }
 
     public static TeamResponse toResponse(Team team){
-            return TeamResponse.builder()
-                    .id(team.getId())
-                    .teamName(team.getTeamName())
-                    .teamCode(team.getTeamCode())
-                    .description(team.getDescription())
-                    .status(team.getStatus())
-                    .medicalPartnerId(team.getMedicalPartner().getId())
-                    .createdAt(team.getCreatedAt())
-                    .updatedAt(team.getUpdatedAt())
-                    .build();
+        String partnerName = (team.getMedicalPartner() != null) ? team.getMedicalPartner().getName() : null;
+        Long partnerId = (team.getMedicalPartner() != null) ? team.getMedicalPartner().getId() : null;
+
+        return TeamResponse.builder()
+                .id(team.getId())
+                .teamName(team.getTeamName())
+                .teamCode(team.getTeamCode())
+                .description(team.getDescription())
+                .status(team.getStatus())
+                .medicalPartnerId(partnerId)
+                .medicalPartnerName(partnerName)
+                .createdAt(team.getCreatedAt())
+                .updatedAt(team.getUpdatedAt())
+                .build();
     }
 
     public static List<TeamResponse> toResponseList(List<Team> teams){
@@ -39,9 +43,12 @@ public class TeamMapper {
             ).toList();
     }
 
-    public static void updateEntity(Team team, CreateTeamRequest request){
+    public static void updateEntity(Team team, CreateTeamRequest request, MedicalPartner partner){
             team.setTeamName(request.getTeamName());
             team.setDescription(request.getDescription());
+            if (partner != null) {
+                team.setMedicalPartner(partner);
+            }
     }
 
 

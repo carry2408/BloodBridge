@@ -87,4 +87,15 @@ public class MedicalPartnerService {
         return ApiResponse.success("Medical partner deactivated successfully", response);
     }
 
+    public ApiResponse<MedicalPartnerResponse> activateMedicalPartnerById(Long id){
+        MedicalPartner partner = medicalPartnerRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Medical partner not found"));
+
+        partner.setStatus(MedicalPartnerStatus.ACTIVE);
+        MedicalPartner savedPartner = medicalPartnerRepository.save(partner);
+
+        MedicalPartnerResponse response = MedicalPartnerMapper.toResponse(savedPartner);
+        return ApiResponse.success("Medical partner activated successfully", response);
+    }
+
 }

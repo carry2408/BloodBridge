@@ -22,6 +22,8 @@ public class TeamResponse {
 
     private Long medicalPartnerId;
 
+    private String medicalPartnerName;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

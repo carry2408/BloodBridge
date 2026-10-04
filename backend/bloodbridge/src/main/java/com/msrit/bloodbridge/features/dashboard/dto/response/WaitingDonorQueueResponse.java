@@ -15,4 +15,22 @@ public class WaitingDonorQueueResponse {
 
     private String phoneNumber;
 
+    private Long teamId;
+
+    private String teamName;
+
+    private Long volunteerId;
+
+    private String volunteerName;
+
+    private String bloodGroup;
+
+    private Double weight;
+
+    private String bloodPressure;
+
+    private Double sugarLevel;
+
+    private Double hemoglobin;
+
 }

@@ -1,5 +1,6 @@
 package com.msrit.bloodbridge.features.camp.dto.request;
 
+import com.msrit.bloodbridge.common.enums.CampStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,4 +27,6 @@ public class UpdateCampRequest {
 
     @NotNull
     private LocalDateTime registrationEnd;
+
+    private CampStatus status;
 }

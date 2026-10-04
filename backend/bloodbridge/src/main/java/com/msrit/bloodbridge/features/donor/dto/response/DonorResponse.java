@@ -30,11 +30,31 @@ public class DonorResponse {
 
     private Double weight;
 
+    private Double unitsDonated;
+
+    private String bloodPressure;
+
+    private Double sugarLevel;
+
+    private Double hemoglobin;
+
     private String remarks;
 
     private DonorStatus status;
 
     private Long volunteerId;
+
+    private String volunteerName;
+
+    private Long teamId;
+
+    private String teamName;
+
+    private String teamCode;
+
+    private Long campId;
+
+    private String campName;
 
     private LocalDateTime createdAt;
 

@@ -57,6 +57,9 @@ public class CampMapper {
         camp.setCampDate(request.getCampDate());
         camp.setRegistrationStart(request.getRegistrationStart());
         camp.setRegistrationEnd(request.getRegistrationEnd());
+        if (request.getStatus() != null) {
+            camp.setStatus(request.getStatus());
+        }
     }
 
 

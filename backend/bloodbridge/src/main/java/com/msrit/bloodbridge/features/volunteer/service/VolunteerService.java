@@ -59,7 +59,10 @@ public class VolunteerService {
         Volunteer volunteer = volunteerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
 
-        VolunteerMapper.updateEntity(volunteer,createVolunteerRequest);
+        Team team = teamRepository.findById(createVolunteerRequest.getTeamId())
+                .orElseThrow(() -> new ResourceNotFoundException("Team not found"));
+
+        VolunteerMapper.updateEntity(volunteer, createVolunteerRequest, team);
         Volunteer updatedVolunteer = volunteerRepository.save(volunteer);
         VolunteerResponse response = VolunteerMapper.toResponse(updatedVolunteer);
         return ApiResponse.success("Volunteer updated successfully", response);
@@ -73,5 +76,15 @@ public class VolunteerService {
         volunteerRepository.save(volunteer);
         VolunteerResponse response = VolunteerMapper.toResponse(volunteer);
         return ApiResponse.success("Volunteer with Id:"+id+" deactivated",response);
+    }
+
+    public ApiResponse<VolunteerResponse> activateVolunteer(Long id) {
+        Volunteer volunteer = volunteerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+
+        volunteer.setStatus(VolunteerStatus.ACTIVE);
+        volunteerRepository.save(volunteer);
+        VolunteerResponse response = VolunteerMapper.toResponse(volunteer);
+        return ApiResponse.success("Volunteer with Id:"+id+" activated successfully", response);
     }
 }

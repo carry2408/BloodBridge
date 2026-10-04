@@ -46,6 +46,14 @@ public class Donor {
 
     private Double weight;
 
+    private Double unitsDonated;
+
+    private String bloodPressure;
+
+    private Double sugarLevel;
+
+    private Double hemoglobin;
+
     private String remarks;
 
     @Enumerated(EnumType.STRING)
@@ -59,6 +67,10 @@ public class Donor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private com.msrit.bloodbridge.features.team.entity.Team team;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

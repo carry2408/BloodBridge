@@ -28,7 +28,6 @@ public class TeamController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
     public ApiResponse<List<TeamResponse>> getAllTeams(){
         return teamService.getAllTeams();
     }
@@ -39,12 +38,17 @@ public class TeamController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<TeamResponse> updateTeam(@RequestBody CreateTeamRequest request, @PathVariable Long id){
+    public ApiResponse<TeamResponse> updateTeam(@Valid @RequestBody CreateTeamRequest request, @PathVariable Long id){
         return teamService.updateTeam(id,request);
     }
 
     @PatchMapping("/{id}/deactivate")
     public ApiResponse<TeamResponse> deactivateTeam(@PathVariable Long id){
         return teamService.deactivateTeamById(id);
+    }
+
+    @PatchMapping("/{id}/activate")
+    public ApiResponse<TeamResponse> activateTeam(@PathVariable Long id){
+        return teamService.activateTeamById(id);
     }
 }

@@ -30,6 +30,19 @@ public class DonorMapper {
 
     public static DonorResponse toResponse(Donor donor) {
 
+        Long teamId = null;
+        String teamName = null;
+        String teamCode = null;
+        if (donor.getTeam() != null) {
+            teamId = donor.getTeam().getId();
+            teamName = donor.getTeam().getTeamName();
+            teamCode = donor.getTeam().getTeamCode();
+        } else if (donor.getVolunteer() != null && donor.getVolunteer().getTeam() != null) {
+            teamId = donor.getVolunteer().getTeam().getId();
+            teamName = donor.getVolunteer().getTeam().getTeamName();
+            teamCode = donor.getVolunteer().getTeam().getTeamCode();
+        }
+
         return DonorResponse.builder()
                 .id(donor.getId())
                 .registrationId(donor.getRegistrationId())
@@ -40,11 +53,33 @@ public class DonorMapper {
                 .email(donor.getEmail())
                 .bloodGroup(donor.getBloodGroup())
                 .weight(donor.getWeight())
+                .unitsDonated(donor.getUnitsDonated())
+                .bloodPressure(donor.getBloodPressure())
+                .sugarLevel(donor.getSugarLevel())
+                .hemoglobin(donor.getHemoglobin())
                 .remarks(donor.getRemarks())
                 .status(donor.getStatus())
                 .volunteerId(
                         donor.getVolunteer() != null
                                 ? donor.getVolunteer().getId()
+                                : null
+                )
+                .volunteerName(
+                        donor.getVolunteer() != null
+                                ? donor.getVolunteer().getFullName()
+                                : null
+                )
+                .teamId(teamId)
+                .teamName(teamName)
+                .teamCode(teamCode)
+                .campId(
+                        donor.getCamp() != null
+                                ? donor.getCamp().getId()
+                                : null
+                )
+                .campName(
+                        donor.getCamp() != null
+                                ? donor.getCamp().getCampName()
                                 : null
                 )
                 .createdAt(donor.getCreatedAt())
@@ -69,12 +104,21 @@ public class DonorMapper {
 
     }
 
-    public static void screenDonor(Donor donor,ScreenDonorRequest request,Volunteer volunteer) {
+    public static void screenDonor(Donor donor, ScreenDonorRequest request, Volunteer volunteer, com.msrit.bloodbridge.features.team.entity.Team team) {
 
         donor.setBloodGroup(request.getBloodGroup());
         donor.setWeight(request.getWeight());
+        if (request.getUnitsDonated() != null) donor.setUnitsDonated(request.getUnitsDonated());
+        if (request.getBloodPressure() != null) donor.setBloodPressure(request.getBloodPressure());
+        if (request.getSugarLevel() != null) donor.setSugarLevel(request.getSugarLevel());
+        if (request.getHemoglobin() != null) donor.setHemoglobin(request.getHemoglobin());
         donor.setRemarks(request.getRemarks());
         donor.setVolunteer(volunteer);
+        if (team != null) {
+            donor.setTeam(team);
+        } else if (volunteer != null && volunteer.getTeam() != null) {
+            donor.setTeam(volunteer.getTeam());
+        }
         donor.setStatus(request.getStatus());
 
     }

@@ -83,14 +83,17 @@ public class DonorService {
                 .orElseThrow(()-> new ResourceNotFoundException("donor not found"));
         Volunteer volunteer = volunteerRepository.findById(request.getVolunteerId())
                         .orElseThrow(()-> new ResourceNotFoundException("volunteer not found"));
-        DonorMapper.screenDonor(donor,request,volunteer);
+
+        com.msrit.bloodbridge.features.team.entity.Team team = volunteer.getTeam();
+
+        DonorMapper.screenDonor(donor, request, volunteer, team);
 
         Donor savedDonor = donorRepository.save(donor);
         DonorResponse response = DonorMapper.toResponse(savedDonor);
         return ApiResponse.success("Donor Updated", response);
     }
 
-    public ApiResponse<DonorResponse> donate(String registrationId) {
+    public ApiResponse<DonorResponse> donate(String registrationId, com.msrit.bloodbridge.features.donor.dto.request.CompleteDonationRequest request) {
 
         Donor donor = donorRepository.findByRegistrationId(registrationId)
                 .orElseThrow(() ->
@@ -101,7 +104,35 @@ public class DonorService {
                     "Only screened donors can donate");
         }
 
+        // Verify team level authorization
+        if (request != null && request.getVolunteerId() != null) {
+            Volunteer actingVolunteer = volunteerRepository.findById(request.getVolunteerId()).orElse(null);
+            if (actingVolunteer != null && actingVolunteer.getTeam() != null) {
+                com.msrit.bloodbridge.features.team.entity.Team actingTeam = actingVolunteer.getTeam();
+                com.msrit.bloodbridge.features.team.entity.Team assignedTeam = donor.getTeam() != null ? donor.getTeam() 
+                        : (donor.getVolunteer() != null ? donor.getVolunteer().getTeam() : null);
+
+                if (assignedTeam != null && !assignedTeam.getId().equals(actingTeam.getId())) {
+                    throw new IllegalStateException(
+                            "Donation can only be processed by volunteers from assigned team: " + assignedTeam.getTeamName()
+                    );
+                }
+            }
+        }
+
         donor.setStatus(DonorStatus.DONATED);
+
+        if (request != null) {
+            if (request.getUnitsDonated() != null) donor.setUnitsDonated(request.getUnitsDonated());
+            if (request.getBloodPressure() != null) donor.setBloodPressure(request.getBloodPressure());
+            if (request.getSugarLevel() != null) donor.setSugarLevel(request.getSugarLevel());
+            if (request.getHemoglobin() != null) donor.setHemoglobin(request.getHemoglobin());
+            if (request.getRemarks() != null && !request.getRemarks().isBlank()) {
+                donor.setRemarks(request.getRemarks());
+            }
+        } else if (donor.getUnitsDonated() == null) {
+            donor.setUnitsDonated(350.0); // Default 350ml if not specified
+        }
 
         Donor updatedDonor = donorRepository.save(donor);
 

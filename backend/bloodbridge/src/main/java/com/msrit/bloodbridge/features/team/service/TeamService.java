@@ -59,7 +59,13 @@ public class TeamService {
     public ApiResponse<TeamResponse> updateTeam(Long id, CreateTeamRequest request) {
         Team team =  teamRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Team Not Found"));
 
-        TeamMapper.updateEntity(team,request);
+        MedicalPartner partner = null;
+        if (request.getMedicalPartnerId() != null) {
+            partner = medicalPartnerRepository.findById(request.getMedicalPartnerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Medical Partner Not Found"));
+        }
+
+        TeamMapper.updateEntity(team, request, partner);
         Team updatedTeam = teamRepository.save(team);
         TeamResponse teamResponse = TeamMapper.toResponse(updatedTeam);
         return ApiResponse.success("Team updated successfully", teamResponse);
@@ -71,5 +77,13 @@ public class TeamService {
         Team updatedTeam = teamRepository.save(team);
         TeamResponse teamResponse = TeamMapper.toResponse(updatedTeam);
         return ApiResponse.success("Team deactivated successfully", teamResponse);
+    }
+
+    public ApiResponse<TeamResponse> activateTeamById(Long id) {
+        Team team =  teamRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Team Not Found"));
+        team.setStatus(TeamStatus.ACTIVE);
+        Team updatedTeam = teamRepository.save(team);
+        TeamResponse teamResponse = TeamMapper.toResponse(updatedTeam);
+        return ApiResponse.success("Team activated successfully", teamResponse);
     }
 }

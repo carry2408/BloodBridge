@@ -26,6 +26,8 @@ public class VolunteerResponse {
 
     private String teamCode;
 
+    private String teamName;
+
     private String generatedPassword;
 
     private LocalDateTime createdAt;

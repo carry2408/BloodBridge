@@ -43,6 +43,31 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiResponse<Void> handleAuthenticationException(org.springframework.security.core.AuthenticationException ex) {
+
+        return ApiResponse.<Void>builder()
+                .success(false)
+                .message("Invalid credentials")
+                .data(null)
+                .build();
+    }
+
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleValidationExceptions(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getAllErrors().isEmpty() 
+                ? "Validation error" 
+                : ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+
+        return ApiResponse.<Void>builder()
+                .success(false)
+                .message(errorMessage)
+                .data(null)
+                .build();
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse<Void> handleException(Exception ex) {
@@ -51,7 +76,7 @@ public class GlobalExceptionHandler {
 
         return ApiResponse.<Void>builder()
                 .success(false)
-                .message("Internal Server Error")
+                .message(ex.getMessage() != null ? ex.getMessage() : "Internal Server Error")
                 .data(null)
                 .build();
     }

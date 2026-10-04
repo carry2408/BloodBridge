@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class DonorController {
     private final DonorService donorService;
 
+    @GetMapping
+    public ApiResponse<java.util.List<DonorResponse>> getAllDonors() {
+        return donorService.getAllDonors();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<DonorResponse> createDonor(@Valid @RequestBody CreateDonorRequest createDonorRequest) {
@@ -36,9 +41,11 @@ public class DonorController {
     }
 
     @PatchMapping("/registration/{registrationId}/donate")
-    public ApiResponse<DonorResponse> donate(@PathVariable String registrationId) {
+    public ApiResponse<DonorResponse> donate(
+            @PathVariable String registrationId,
+            @RequestBody(required = false) com.msrit.bloodbridge.features.donor.dto.request.CompleteDonationRequest request) {
 
-        return donorService.donate(registrationId);
+        return donorService.donate(registrationId, request);
     }
     
 }

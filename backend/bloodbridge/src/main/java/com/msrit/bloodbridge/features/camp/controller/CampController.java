@@ -29,7 +29,6 @@ public class CampController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
     public ApiResponse<List<CampResponse>> getAllCamps(){
         return campService.getAllCamps();
     }

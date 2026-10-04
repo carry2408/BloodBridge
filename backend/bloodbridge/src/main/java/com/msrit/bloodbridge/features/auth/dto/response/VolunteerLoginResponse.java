@@ -7,10 +7,16 @@ import lombok.Data;
 @Builder
 public class VolunteerLoginResponse {
 
+    private Long id;
+
     private String token;
 
     private String usn;
 
     private String volunteerName;
+
+    private Long teamId;
+
+    private String teamName;
 
 }

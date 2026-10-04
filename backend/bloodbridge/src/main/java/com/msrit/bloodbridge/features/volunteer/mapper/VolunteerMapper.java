@@ -27,6 +27,12 @@ public class VolunteerMapper {
 
     public static VolunteerResponse toResponse(Volunteer volunteer) {
 
+        String teamName = (volunteer.getTeam() != null) ? volunteer.getTeam().getTeamName() : null;
+        String teamCode = (volunteer.getTeam() != null) ? volunteer.getTeam().getTeamCode() : null;
+        Long teamId = (volunteer.getTeam() != null) ? volunteer.getTeam().getId() : null;
+
+        String pwd = (volunteer.getId() != null) ? String.format("BB@%04d", volunteer.getId()) : "BB@0001";
+
         return VolunteerResponse.builder()
                 .id(volunteer.getId())
                 .fullName(volunteer.getFullName())
@@ -34,8 +40,10 @@ public class VolunteerMapper {
                 .phoneNumber(volunteer.getPhoneNumber())
                 .email(volunteer.getEmail())
                 .status(volunteer.getStatus())
-                .teamId(volunteer.getTeam().getId())
-                .teamCode(volunteer.getTeam().getTeamCode())
+                .teamId(teamId)
+                .teamCode(teamCode)
+                .teamName(teamName)
+                .generatedPassword(pwd)
                 .createdAt(volunteer.getCreatedAt())
                 .updatedAt(volunteer.getUpdatedAt())
                 .build();
@@ -47,11 +55,14 @@ public class VolunteerMapper {
                 .toList();
     }
 
-    public static void updateEntity(Volunteer volunteer, CreateVolunteerRequest request) {
+    public static void updateEntity(Volunteer volunteer, CreateVolunteerRequest request, Team team) {
 
         volunteer.setFullName(request.getFullName());
         volunteer.setUsn(request.getUsn());
         volunteer.setPhoneNumber(request.getPhoneNumber());
         volunteer.setEmail(request.getEmail());
+        if (team != null) {
+            volunteer.setTeam(team);
+        }
     }
 }

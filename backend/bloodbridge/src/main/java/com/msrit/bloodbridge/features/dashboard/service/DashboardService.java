@@ -56,19 +56,30 @@ public class DashboardService {
     }
 
     public ApiResponse<List<WaitingDonorQueueResponse>> getWaitingForDonation() {
-        List<Donor>  donors = donorRepository.findByStatus(DonorStatus.SCREENED);
+        List<Donor> donors = donorRepository.findByStatus(DonorStatus.SCREENED);
 
         List<WaitingDonorQueueResponse> waitingDonorQueueResponseList = donors.stream()
-                .map((donor)->{
+                .map((donor) -> {
+                    com.msrit.bloodbridge.features.team.entity.Team team = donor.getTeam() != null 
+                            ? donor.getTeam() 
+                            : (donor.getVolunteer() != null ? donor.getVolunteer().getTeam() : null);
+
                     return WaitingDonorQueueResponse.builder()
                             .registrationId(donor.getRegistrationId())
                             .age(donor.getAge())
                             .fullName(donor.getFullName())
                             .phoneNumber(donor.getPhoneNumber())
+                            .bloodGroup(donor.getBloodGroup() != null ? donor.getBloodGroup().name() : null)
+                            .bloodPressure(donor.getBloodPressure())
+                            .sugarLevel(donor.getSugarLevel())
+                            .hemoglobin(donor.getHemoglobin())
+                            .teamId(team != null ? team.getId() : null)
+                            .teamName(team != null ? team.getTeamName() : null)
+                            .volunteerId(donor.getVolunteer() != null ? donor.getVolunteer().getId() : null)
                             .build();
                 }).toList();
 
-        return ApiResponse.success("Waiting for donation List Fetched",waitingDonorQueueResponseList);
+        return ApiResponse.success("Waiting for donation List Fetched", waitingDonorQueueResponseList);
     }
 
 }

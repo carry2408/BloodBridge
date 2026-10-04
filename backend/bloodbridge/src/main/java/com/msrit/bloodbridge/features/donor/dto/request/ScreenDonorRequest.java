@@ -15,6 +15,14 @@ public class ScreenDonorRequest {
     @DecimalMin("40.0")
     private Double weight;
 
+    private Double unitsDonated;
+
+    private String bloodPressure;
+
+    private Double sugarLevel;
+
+    private Double hemoglobin;
+
     private String remarks;
 
     @NotNull

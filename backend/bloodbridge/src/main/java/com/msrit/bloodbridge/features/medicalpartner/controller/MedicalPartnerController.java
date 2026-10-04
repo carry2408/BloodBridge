@@ -34,13 +34,12 @@ public class MedicalPartnerController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
     public ApiResponse<MedicalPartnerResponse> getMedicalPartnerById(@PathVariable Long id){
         return medicalPartnerService.getMedicalPartnerById(id);
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<MedicalPartnerResponse> updateMedicalPartner(@PathVariable Long id,@RequestBody CreateMedicalPartnerRequest request ){
+    public ApiResponse<MedicalPartnerResponse> updateMedicalPartner(@PathVariable Long id, @Valid @RequestBody CreateMedicalPartnerRequest request ){
         return medicalPartnerService.updateMedicalPartnerById(id,request);
     }
 
@@ -48,4 +47,10 @@ public class MedicalPartnerController {
     public ApiResponse<MedicalPartnerResponse> deactivateMedicalPartner(@PathVariable Long id){
         return medicalPartnerService.deactivateMedicalPartnerById(id);
     }
+
+    @PatchMapping("/{id}/activate")
+    public ApiResponse<MedicalPartnerResponse> activateMedicalPartner(@PathVariable Long id){
+        return medicalPartnerService.activateMedicalPartnerById(id);
+    }
 }
+

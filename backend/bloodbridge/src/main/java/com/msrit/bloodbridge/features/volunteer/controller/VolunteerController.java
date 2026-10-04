@@ -48,4 +48,9 @@ public class VolunteerController {
         return volunteerService.deactivateVolunteer(id);
     }
 
+    @PatchMapping("/{id}/activate")
+    public ApiResponse<VolunteerResponse> activateVolunteer(@PathVariable Long id) {
+        return volunteerService.activateVolunteer(id);
+    }
+
 }
