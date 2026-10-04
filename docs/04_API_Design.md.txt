@@ -1,0 +1,334 @@
+# BloodBridge - API Design
+
+**Version:** 1.0
+
+---
+
+# Base URL
+
+```text
+/api/v1
+```
+
+---
+
+# API Response Format
+
+Every API returns the same response format.
+
+Success
+
+```json
+{
+    "success": true,
+    "message": "Operation successful",
+    "data": {}
+}
+```
+
+Error
+
+```json
+{
+    "success": false,
+    "message": "Something went wrong",
+    "errors": []
+}
+```
+
+---
+
+# 1. Admin APIs
+
+| Method | Endpoint       | Description          |
+| ------ | -------------- | -------------------- |
+| POST   | /admin/login   | Admin Login          |
+| GET    | /admin/profile | Get Admin Profile    |
+| PUT    | /admin/profile | Update Admin Profile |
+
+---
+
+# 2. Camp APIs
+
+| Method | Endpoint           | Description        |
+| ------ | ------------------ | ------------------ |
+| POST   | /camps             | Create Camp        |
+| GET    | /camps             | Get Camp           |
+| PUT    | /camps/{id}        | Update Camp        |
+| PATCH  | /camps/{id}/status | Update Camp Status |
+
+---
+
+# 3. Medical Partner APIs
+
+| Method | Endpoint               | Description            |
+| ------ | ---------------------- | ---------------------- |
+| POST   | /medical-partners      | Add Medical Partner    |
+| GET    | /medical-partners      | List Medical Partners  |
+| PUT    | /medical-partners/{id} | Update Medical Partner |
+| DELETE | /medical-partners/{id} | Delete Medical Partner |
+
+---
+
+# 4. Team APIs
+
+| Method | Endpoint    | Description      |
+| ------ | ----------- | ---------------- |
+| POST   | /teams      | Create Team      |
+| GET    | /teams      | List Teams       |
+| GET    | /teams/{id} | Get Team Details |
+| PUT    | /teams/{id} | Update Team      |
+| DELETE | /teams/{id} | Delete Team      |
+
+---
+
+# 5. Volunteer APIs
+
+| Method | Endpoint         | Description      |
+| ------ | ---------------- | ---------------- |
+| POST   | /volunteers      | Add Volunteer    |
+| GET    | /volunteers      | List Volunteers  |
+| PUT    | /volunteers/{id} | Update Volunteer |
+| DELETE | /volunteers/{id} | Remove Volunteer |
+
+---
+
+# 6. Volunteer Login APIs
+
+| Method | Endpoint              | Description     |
+| ------ | --------------------- | --------------- |
+| POST   | /auth/volunteer/login | Volunteer Login |
+| POST   | /auth/logout          | Logout          |
+
+---
+
+# 7. Donor Registration APIs
+
+| Method | Endpoint         | Description       |
+| ------ | ---------------- | ----------------- |
+| POST   | /donors/register | Register Donor    |
+| GET    | /donors          | List Donors       |
+| GET    | /donors/{id}     | Get Donor Details |
+| PUT    | /donors/{id}     | Update Donor      |
+| GET    | /donors/search   | Search Donor      |
+
+Search by:
+
+* Registration ID
+* Phone Number
+* Name
+
+---
+
+# 8. Screening APIs
+
+| Method | Endpoint              | Description      |
+| ------ | --------------------- | ---------------- |
+| POST   | /screenings           | Save Screening   |
+| GET    | /screenings/{donorId} | Get Screening    |
+| PUT    | /screenings/{id}      | Update Screening |
+
+---
+
+# 9. Donation APIs
+
+| Method | Endpoint             | Description     |
+| ------ | -------------------- | --------------- |
+| POST   | /donations           | Save Donation   |
+| GET    | /donations/{donorId} | Get Donation    |
+| PUT    | /donations/{id}      | Update Donation |
+
+---
+
+# 10. Dashboard APIs
+
+## Admin Dashboard
+
+| Method | Endpoint         | Description     |
+| ------ | ---------------- | --------------- |
+| GET    | /dashboard/admin | Admin Dashboard |
+
+---
+
+## Volunteer Dashboard
+
+| Method | Endpoint             | Description         |
+| ------ | -------------------- | ------------------- |
+| GET    | /dashboard/volunteer | Volunteer Dashboard |
+
+---
+
+# 11. Report APIs
+
+| Method | Endpoint                  | Description            |
+| ------ | ------------------------- | ---------------------- |
+| GET    | /reports/donors           | Donor Report           |
+| GET    | /reports/teams            | Team Report            |
+| GET    | /reports/medical-partners | Medical Partner Report |
+| GET    | /reports/summary          | Camp Summary           |
+
+---
+
+# 12. Email APIs
+
+| Method | Endpoint     | Description             |
+| ------ | ------------ | ----------------------- |
+| POST   | /emails/send | Send Announcement Email |
+
+---
+
+# Additional APIs
+
+---
+
+# 13. QR Code APIs
+
+These APIs support QR Code functionality during the camp.
+
+| Method | Endpoint             | Description                                   |
+| ------ | -------------------- | --------------------------------------------- |
+| GET    | /qr/{registrationId} | Get Donor using Registration ID               |
+| POST   | /qr/scan             | Retrieve donor details after scanning QR Code |
+
+---
+
+# 14. Statistics APIs
+
+These APIs provide summary data for dashboards.
+
+## Admin Statistics
+
+| Method | Endpoint          | Description             |
+| ------ | ----------------- | ----------------------- |
+| GET    | /statistics/admin | Overall Camp Statistics |
+
+Returns information such as:
+
+* Total Registrations
+* Total Check-Ins
+* Total Approved
+* Total Rejected
+* Total Completed
+* Total No Show
+* Team Count
+* Volunteer Count
+
+---
+
+## Volunteer Statistics
+
+| Method | Endpoint              | Description     |
+| ------ | --------------------- | --------------- |
+| GET    | /statistics/volunteer | Team Statistics |
+
+Returns information such as:
+
+* Team Name
+* Medical Partner
+* Pending Screening
+* Completed Donations
+* Rejected Donors
+* Today's Activity
+
+---
+
+# API Summary
+
+| Module          | Number of APIs |
+| --------------- | -------------: |
+| Admin           |              3 |
+| Camp            |              4 |
+| Medical Partner |              4 |
+| Team            |              5 |
+| Volunteer       |              4 |
+| Authentication  |              2 |
+| Donor           |              5 |
+| Screening       |              3 |
+| Donation        |              3 |
+| Dashboard       |              2 |
+| Reports         |              4 |
+| Email           |              1 |
+| QR Code         |              2 |
+| Statistics      |              2 |
+
+**Total APIs:** Approximately **44 REST APIs**
+
+---
+
+# API Naming Rules
+
+* Use plural names for resources.
+* Use nouns instead of verbs.
+* Use HTTP methods correctly.
+* Keep endpoint names lowercase.
+* Return JSON only.
+* Version all APIs using `/api/v1`.
+
+Examples:
+
+```
+GET    /api/v1/donors
+POST   /api/v1/donors
+PUT    /api/v1/donors/{id}
+DELETE /api/v1/donors/{id}
+```
+
+---
+
+# Final Notes
+
+* All protected APIs require JWT authentication.
+* Public APIs include donor registration and login endpoints.
+* Every API returns the standard response format.
+* Input validation must be performed before processing requests.
+* Errors should return meaningful HTTP status codes and messages.
+
+---
+
+**Document Status:** Approved
+
+
+# Authentication
+
+| API                | Authentication |
+| ------------------ | -------------- |
+| Donor Registration | Public         |
+| Volunteer Login    | Public         |
+| Admin Login        | Public         |
+| All Admin APIs     | JWT            |
+| Volunteer APIs     | JWT            |
+| Reports            | JWT            |
+
+---
+
+# API Development Order
+
+Develop APIs in the following order:
+
+1. Admin Authentication
+2. Camp
+3. Medical Partner
+4. Team
+5. Volunteer
+6. Volunteer Login
+7. Donor Registration
+8. Screening
+9. Donation
+10. Dashboard
+11. Reports
+12. Email
+
+---
+
+
+
+# Notes
+
+* Use RESTful API naming conventions.
+* Return JSON responses.
+* Use DTOs for request and response objects.
+* Never expose database entities directly.
+* Validate all incoming requests.
+* Secure protected APIs using JWT authentication.
+* Handle exceptions using a global exception handler.
+
