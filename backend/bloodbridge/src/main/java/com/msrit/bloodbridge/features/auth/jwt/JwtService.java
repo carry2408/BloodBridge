@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:bloodbridgejwtsecretkeymustbeatleast32characters}")
     private String secretKey;
 
     private SecretKey getSigningKey() {
